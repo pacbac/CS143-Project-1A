@@ -1,14 +1,14 @@
--- Get names of all actors in "Die Another Day"
+-- The names of all the actors in the movie 'Die Another Day'
 SELECT CONCAT(a.first, " ", a.last) AS Actors
 FROM Actor a JOIN MovieActor ma JOIN Movie m
 ON ma.mid=m.id AND ma.aid=a.id
 WHERE m.title="Die Another Day";
 
--- Get count of all actors who acted in multiple movies
+-- The count of all the actors who acted in multiple movies
 SELECT COUNT(*) AS NumActorsMultipleMovies
 FROM (SELECT ma.aid FROM MovieActor ma GROUP BY ma.aid HAVING COUNT(ma.mid) > 1) s;
 
--- Get title of movies that sell more than 1M tickets
+-- The title of movies that sell more than 1,000,000 tickets
 SELECT m.title AS MovieTitle
 FROM Movie m JOIN Sales s 
 ON m.id=s.mid AND ticketsSold > 1000000;
