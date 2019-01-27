@@ -1,32 +1,38 @@
 -- The names of all the actors in the movie 'Die Another Day'
 SELECT CONCAT(a.first, " ", a.last) AS Actors
 FROM Actor a JOIN MovieActor ma JOIN Movie m
-ON ma.mid=m.id AND ma.aid=a.id
+  ON ma.mid=m.id AND ma.aid=a.id 
 WHERE m.title="Die Another Day";
 
 -- The count of all the actors who acted in multiple movies
 SELECT COUNT(*) AS NumActorsMultipleMovies
-FROM (SELECT ma.aid FROM MovieActor ma GROUP BY ma.aid HAVING COUNT(ma.mid) > 1) s;
+FROM (SELECT ma.aid
+  FROM MovieActor ma
+  GROUP BY ma.aid
+  HAVING COUNT(ma.mid) > 1) s;
 
 -- The title of movies that sell more than 1,000,000 tickets
 SELECT m.title AS MovieTitle
-FROM Movie m JOIN Sales s 
-ON m.id=s.mid AND ticketsSold > 1000000;
+FROM Movie m JOIN Sales s
+  ON m.id=s.mid AND ticketsSold > 1000000;
 
 -- Get title of movies who had IMDB ratings > 85% and Rotten Tomatoes ratings > 90%
 SELECT m.title AS MovieTitle
 FROM Movie m JOIN MovieRating mr
-ON m.id=mr.mid
+  ON m.id=mr.mid
 WHERE mr.imdb > 85 AND mr.rot > 90;
 
 -- Get most popular movie genre(s)
-SELECT genre -- find the genre that has count = max genre count
+SELECT genre
+-- find the genre that has count = max genre count
 FROM MovieGenre
 GROUP BY genre
 HAVING COUNT(*) >= (
-SELECT MAX(gCount) FROM ( -- pick the max genre count
-SELECT COUNT(*) AS gCount -- get counts of every genre
-FROM MovieGenre
-GROUP BY genre
+SELECT MAX(gCount)
+FROM ( -- pick the max genre count
+SELECT COUNT(*) AS gCount
+  -- get counts of every genre
+  FROM MovieGenre
+  GROUP BY genre
 ) s
 );

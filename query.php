@@ -3,7 +3,7 @@
 $query = $_GET['query']; // get the query from the get request
 // establish connection with db
 $db_connection = mysql_connect("localhost", "cs143", "");
-mysql_select_db("TEST", $db_connection); //
+mysql_select_db("CS143", $db_connection); //
 ?>
 <html>
   <body>
@@ -19,10 +19,10 @@ mysql_select_db("TEST", $db_connection); //
     <?php
     // sends query and rs stores array of results
     $rs = mysql_query($query, $db_connection);
-    // if (!$rs) {
-    //   die('Query failed: ' . mysql_error());
-    // } else {
-    if ($rs) {
+    if (!$rs) {
+      if (mysql_error() != "Query was empty")
+        die('Query failed: ' . mysql_error());
+    } else {
       echo "<table border=1 cellspacing=1 cellpadding=2>";
       $i = 0;
       echo "<tr align=center>";
@@ -43,7 +43,6 @@ mysql_select_db("TEST", $db_connection); //
       }
       echo "</table>";
     }
-    // }
     ?>
   </body>
 </html>
